@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 
-function App() {
-  const [count, setCount] = useState(0)
+function Meshe(props){
+  const mesh = useRef();
+  useFrame((state, delta)=>(mesh.current.rotation.z += delta))
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <mesh
+      {...props}
+      ref={mesh}
+    >
+      <sphereGeometry args={[2, 32, 32]}/>
+      <meshStandardMaterial color='purple'/>
+    </mesh>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="w-screen h-screen">
+      <Canvas>
+         <ambientLight intensity={0.5}/>
+         <spotLight position={[10,10,10]} angle={.15} penumbra={1}/>
+         <directionalLight color='red' position={[0,0,5]}/>
+        <Meshe position={[0,0,0]}/>
+       </Canvas>
     </div>
   )
 }
 
-export default App
