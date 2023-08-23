@@ -1,31 +1,26 @@
-import { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import ThreeCanvas from "./components/Canvas";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import Layout from "./components/Layout";
 
-function Meshe(props){
-  const mesh = useRef();
-  useFrame((state, delta)=>(mesh.current.rotation.z += delta))
-
-  return (
-    <mesh
-      {...props}
-      ref={mesh}
-    >
-      <sphereGeometry args={[2, 32, 32]}/>
-      <meshStandardMaterial color='purple'/>
-    </mesh>
-  )
-}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Homepage />,
+      },
+    ],
+  },
+]);
 
 export default function App() {
   return (
     <div className="w-screen h-screen">
-      <Canvas>
-         <ambientLight intensity={0.5}/>
-         <spotLight position={[10,10,10]} angle={.15} penumbra={1}/>
-         <directionalLight color='red' position={[0,0,5]}/>
-        <Meshe position={[0,0,0]}/>
-       </Canvas>
+      <ThreeCanvas />
+      <RouterProvider router={router} />
     </div>
-  )
+  );
 }
-
