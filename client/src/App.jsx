@@ -19,7 +19,7 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <div className="w-screen h-screen">
-      <ThreeCanvas />
+      {/* <ThreeCanvas /> */}
       <RouterProvider router={router} />
     </div>
   );
